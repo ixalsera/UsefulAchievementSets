@@ -7,7 +7,7 @@ description = "A Millennium plugin to provide actual, useful achievement sets fo
 
 [assets]
 # reference resources to be included inside the plugin at compile time
-resources=["resources/**/*"]
+resources = ["resources/**/*"]
 
 # THE BELOW IS NOT YET IMPLEMENTED IN MILLENNIUM
 # --------------------
@@ -68,9 +68,9 @@ show_hidden = true
 
 [logger]
 padding = 0
-backend_prefix  = "BCK"
+backend_prefix = "BCK"
 frontend_prefix = "FRT"
-webview_prefix  = "WEB"
+webview_prefix = "WEB"
 
 # padding = -15                   # negative = right-align (pad left), positive = left-align (pad right), 0 = none
 # backend_prefix  = "BCK {file}"  # {file} expands to "filename:L{line}" when available

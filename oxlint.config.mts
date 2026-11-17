@@ -6,6 +6,6 @@ export default defineConfig({
     builtin: true,
   },
   categories: {
-    correctness: "error"
-  }
-})
+    correctness: "error",
+  },
+});

@@ -3,13 +3,8 @@
   "compilerOptions": {
     "baseUrl": "..",
     "paths": {
-      "millennium": [
-        "../.millennium/lsp/webkit-ts"
-      ]
+      "millennium": ["../.millennium/lsp/webkit-ts"]
     },
-    "typeRoots": [
-      "../.millennium/types",
-      "../node_modules/@types"
-    ]
+    "typeRoots": ["../.millennium/types", "../node_modules/@types"]
   }
 }

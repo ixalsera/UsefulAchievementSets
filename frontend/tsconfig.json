@@ -1,10 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "node_modules",
-    "../webview"
-  ]
+  "include": ["."],
+  "exclude": ["node_modules", "../webview"]
 }
