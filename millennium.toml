@@ -1,9 +1,9 @@
 [plugin]
-id = "com.example.boilerplate"
-name = "Boilerplate Plugin"
+id = "ne.ixni.usefulachievementsets"
+name = "Useful Achievement Sets"
 version = "1.0.0"
-author = "Millennium"
-description = "A template plugin for Millennium."
+author = "ixalsera"
+description = "A Millennium plugin to provide actual, useful achievement sets for Steam games according to SteamHunters"
 
 [assets]
 # reference resources to be included inside the plugin at compile time
@@ -35,8 +35,8 @@ entry = "frontend/index.tsx"
 # import { useEffect } from "react";
 # useEffect() -> window.SOME_FAKE_REACT.useEffect() at runtime
 
-[webkit]
-entry = "webview/preload.ts"
+# [webkit]
+# entry = "webview/preload.ts"
 
 # [webkit.globals]
 # same as frontend.globals
