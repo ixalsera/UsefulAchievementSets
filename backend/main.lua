@@ -33,14 +33,20 @@ end
 
 local function get_patches()
     return {
+        -- Achievements view: wrap the Valve block (toolbar + pinned list + AchievementsTable)
+        -- in our tab component. `find` spans from the view's props destructure so the
+        -- transform can capture `appid` and `overlayPinned`. Minified identifiers may
+        -- contain `$`, hence `[\w$]+`.
         {
+            file = [[sp\.js]],
             find =
-            [["#Menu_Account"\):\(0,\w+\.jsxs\)\("div",\{className:\w+\(\)\.SteamButton,children:\[\(0,\w+\.jsx\)\(\w+\.SteamLogo]],
-            file = [[chunk~[0-9a-f]+\.js]],
+            [[const\{appid:[\w$]+,targetsteamid:[\w$]+,asPanel:[\w$]+=!1,overlayPinned:[\w$]+=!1,.*?\(0,[\w$]+\.jsx\)\([\w$]+,\{typeFilter:[\w$]+,compareTo:[\w$]+\}\)\]\}\)]],
             transforms = {
                 {
-                    match = [[\(0,(\w+\.jsx)\)\(\w+\.SteamLogo]],
-                    replace = [[(0,\1)(#{{self}}?.hookedSettingsIcon?.SteamButton||(()=>null)]],
+                    match =
+                    [[(const\{appid:([\w$]+),targetsteamid:[\w$]+,asPanel:[\w$]+=!1,overlayPinned:([\w$]+)=!1,.*?)\(0,([\w$]+)\.jsxs\)\(([\w$]+\.s,\{direction:"column",gap:"5",children:\[\(0,[\w$]+\.jsx\)\([\w$]+\.az,\{className:[\w$]+\?[\w$]+\.OverlayHidden:void 0,children:\(0,[\w$]+\.jsx\)\([\w$]+,\{typeFilter:[\w$]+,setTypeFilter:[\w$]+\}\)\}\),\(0,[\w$]+\.jsx\)\([\w$]+,\{compareTo:[\w$]+\}\),\(0,[\w$]+\.jsx\)\([\w$]+,\{typeFilter:[\w$]+,compareTo:[\w$]+\}\)\]\}\))]],
+                    replace =
+                    [[\1(0,\4.jsx)(#{{self}}?.UASAchievementView?.Tabs||(p=>p.children),{appid:\2,overlayPinned:\3,children:(0,\4.jsxs)(\5})]],
                 }
             }
         }

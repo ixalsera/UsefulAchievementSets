@@ -1,6 +1,8 @@
 import { definePlugin, Field } from "millennium";
 import { useEffect, useState } from "react";
 
+import { AchievementTabs } from "./components/AchievementTabs";
+
 const SettingsContent = () => {
   return <Field label="Hello, World!" />;
 };
@@ -35,6 +37,11 @@ const Icon = () => {
 /** @ffi */
 export const hookedSettingsIcon = {
   SteamButton: () => <Icon />,
+};
+
+/** @ffi */
+export const UASAchievementView = {
+  Tabs: AchievementTabs,
 };
 
 async function initializePlugin() {
