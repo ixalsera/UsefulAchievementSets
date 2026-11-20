@@ -24,48 +24,28 @@ export function useAchievementData(appid: number) {
     let cancelled = false; // ignore the result if the component unmounts first
 
     Promise.all([
-      getAchievementDetails(appid)
-        .then((result) => {
-          if (!cancelled) {
-            setAchievementData(result as unknown as AchievementDetails[]);
-          }
-        })
-        .catch((e) => {
-          if (!cancelled) {
-            setError(String(e));
-          }
-        }),
-      getGroups(appid)
-        .then((result) => {
-          if (!cancelled) {
-            let res = result as unknown as IGroups;
-            setGroups(res.groups);
-          }
-        })
-        .catch((e) => {
-          if (!cancelled) {
-            setError(String(e));
-          }
-        }),
-      getAppInfo(appid)
-        .then((result) => {
-          if (!cancelled) {
-            setAppInfo(result as unknown as AppDetails);
-          }
-        })
-        .catch((e) => {
-          if (!cancelled) {
-            setError(String(e));
-          }
-        }),
-      getUserAchievements(appid).then((result) => {
+      getAchievementDetails(appid).then((result) => {
+        if (!cancelled) setAchievementData(result as unknown as AchievementDetails[]);
+      }),
+      getGroups(appid).then((result) => {
         if (!cancelled) {
-          setAchievements(result.data.rgAchievements);
+          let res = result as unknown as IGroups;
+          setGroups(res.groups);
         }
       }),
-    ]).then(() => {
-      setLoading(false);
-    });
+      getAppInfo(appid).then((result) => {
+        if (!cancelled) setAppInfo(result as unknown as AppDetails);
+      }),
+      getUserAchievements(appid).then((result) => {
+        if (!cancelled) setAchievements(result.data.rgAchievements);
+      }),
+    ])
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((e) => {
+        if (!cancelled) setError(String(e));
+      });
 
     return () => {
       cancelled = true;

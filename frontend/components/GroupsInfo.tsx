@@ -9,7 +9,7 @@ export function GroupsInfo({ groups }: GroupsInfoProps) {
     <div>
       {groups?.map((group) => (
         <div>
-          <p>{group.name}</p>
+          <p>{group.dlcAppName ?? group.name}</p>
           <p>{group.achievementApiNames}</p>
           <p>{group.logoAppId}</p>
         </div>
