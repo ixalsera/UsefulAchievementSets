@@ -12,21 +12,21 @@ end
 
 ---@ffi
 ---@param appId number
----@return string
+---@return table
 function getAchievementGroups(appId)
     return Request(string.format("https://steamhunters.com/api/GetAchievementGroups/v1?appid=%s", appId))
 end
 
 ---@ffi
 ---@param appId number
----@return string
-function getAchievements(appId)
+---@return table
+function getAchievementDetails(appId)
     return Request(string.format("https://steamhunters.com/api/apps/%s/achievements", appId))
 end
 
 ---@ffi
 ---@param appId number
----@return string
+---@return table
 function getAppInfo(appId)
     return Request(string.format("https://steamhunters.com/api/apps/%s", appId))
 end

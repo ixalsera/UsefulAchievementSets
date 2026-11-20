@@ -26,7 +26,7 @@ export interface AppDetails {
   points: number;
   fastestCompletionTime: number;
   medianCompletionTime: number;
-  releaseDate: Date;
+  releaseDate: string;
   hasAdultOnlySexualContent: boolean;
   hasPaidDlc: boolean;
   isEnglishNotSupported: boolean;

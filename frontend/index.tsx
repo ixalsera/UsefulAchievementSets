@@ -1,31 +1,10 @@
 import { definePlugin, Field } from "millennium";
-import { useEffect, useState } from "react";
 
 import { AchievementTabs } from "./AchievementTabs";
+import { Icon } from "./components/Icon";
 
 const SettingsContent = () => {
   return <Field label="Hello, World!" />;
-};
-
-const Icon = () => {
-  const [icon, setIcon] = useState<string>();
-
-  useEffect(() => {
-    console.log("Getting icon...");
-    backend.getSteamBrewIconResource().then(setIcon);
-  }, []);
-
-  return (
-    <div
-      className="SteamClientHomebrewIcon"
-      style={{
-        width: "16px",
-        height: "16px",
-        marginRight: "5px",
-      }}
-      dangerouslySetInnerHTML={{ __html: icon }}
-    />
-  );
 };
 
 /** @ffi */

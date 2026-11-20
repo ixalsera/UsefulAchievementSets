@@ -1,9 +1,9 @@
-interface IGroup {
-  Name: string;
-  DlcAppId: number;
-  DlcAppName: string;
-  LogoAppId: number;
-  AchievementApiNames: Array<string>;
+export interface IGroup {
+  name: string;
+  dlcAppId: number;
+  dlcAppName: string;
+  logoAppId: number;
+  achievementApiNames: Array<string>;
 }
 
 export interface IGroups {

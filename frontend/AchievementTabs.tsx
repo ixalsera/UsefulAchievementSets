@@ -1,4 +1,4 @@
-import { DialogButtonPrimary, DialogButtonSecondary, Focusable } from "millennium";
+import { Button, DialogButtonPrimary, Focusable } from "millennium";
 import { type ReactNode, useState } from "react";
 
 import { SteamHuntersView } from "./views/SteamHuntersView";
@@ -29,15 +29,15 @@ export const AchievementTabs = ({ appid, overlayPinned, children }: AchievementT
         style={{ display: "flex", flexDirection: "row", gap: "16px", justifyContent: "center" }}
       >
         {TABS.map(({ id, title }) => {
-          const Button = id === tab ? DialogButtonPrimary : DialogButtonSecondary;
+          const TabButton = id === tab ? DialogButtonPrimary : Button;
           return (
-            <Button
+            <TabButton
               key={id}
               style={{ width: "auto", minWidth: "160px" }}
               onClick={() => setTab(id)}
             >
               {title}
-            </Button>
+            </TabButton>
           );
         })}
       </Focusable>
