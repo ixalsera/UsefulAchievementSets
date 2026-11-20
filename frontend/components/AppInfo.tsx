@@ -1,7 +1,7 @@
 import { AppDetails } from "../interfaces/Apps";
 
 interface AppDetailsProps {
-  details: AppDetails|null;
+  details: AppDetails | null;
 }
 
 export function AppInfo({ details }: AppDetailsProps) {
@@ -12,5 +12,5 @@ export function AppInfo({ details }: AppDetailsProps) {
       <p>Points: {details?.points}</p>
       <p>Released: {details?.releaseDate}</p>
     </div>
-  )
+  );
 }

@@ -7,13 +7,13 @@ interface GroupsInfoProps {
 export function GroupsInfo({ groups }: GroupsInfoProps) {
   return (
     <div>
-        {groups?.map((group) => (
-          <div>
-            <p>{group.name}</p>
-            <p>{group.achievementApiNames}</p>
-            <p>{group.logoAppId}</p>
-          </div>
-          ))}
+      {groups?.map((group) => (
+        <div>
+          <p>{group.name}</p>
+          <p>{group.achievementApiNames}</p>
+          <p>{group.logoAppId}</p>
+        </div>
+      ))}
     </div>
   );
 }

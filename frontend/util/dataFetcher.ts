@@ -11,5 +11,5 @@ export function getAppInfo(appId: number) {
 }
 
 export function getUserAchievements(appId: number) {
-  return SteamClient.Apps.GetMyAchievementsForApp(String(appId))
+  return SteamClient.Apps.GetMyAchievementsForApp(String(appId));
 }

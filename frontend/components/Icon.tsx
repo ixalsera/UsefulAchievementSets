@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export function Icon() {
-  const [icon, setIcon] = useState<string>('');
+  const [icon, setIcon] = useState<string>("");
 
   useEffect(() => {
     console.log("Getting icon...");

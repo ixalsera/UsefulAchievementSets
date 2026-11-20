@@ -9,7 +9,8 @@ interface SteamHuntersViewProps {
 }
 
 export function SteamHuntersView({ appid }: SteamHuntersViewProps) {
-  const { achievementData, groups, appInfo, loading, error, achievements } = useAchievementData(appid)
+  const { achievementData, groups, appInfo, loading, error, achievements } =
+    useAchievementData(appid);
 
   return (
     <ErrorBoundary>

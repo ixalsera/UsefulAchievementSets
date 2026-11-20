@@ -1,3 +1,4 @@
+import { AppAchievement } from "millennium";
 import { useEffect, useState } from "react";
 
 import { AchievementDetails } from "../interfaces/Achievements";
@@ -9,7 +10,6 @@ import {
   getGroups,
   getUserAchievements,
 } from "../util/dataFetcher";
-import { AppAchievement } from "millennium";
 
 // Note to self: These are like Vue composables; if you remember those!
 export function useAchievementData(appid: number) {
@@ -38,7 +38,7 @@ export function useAchievementData(appid: number) {
       getGroups(appid)
         .then((result) => {
           if (!cancelled) {
-            let res = result as unknown as IGroups
+            let res = result as unknown as IGroups;
             setGroups(res.groups);
           }
         })
@@ -58,12 +58,11 @@ export function useAchievementData(appid: number) {
             setError(String(e));
           }
         }),
-      getUserAchievements(appid)
-        .then((result) => {
-          if (!cancelled) {
-            setAchievements(result.data.rgAchievements)
-          }
-        })
+      getUserAchievements(appid).then((result) => {
+        if (!cancelled) {
+          setAchievements(result.data.rgAchievements);
+        }
+      }),
     ]).then(() => {
       setLoading(false);
     });
