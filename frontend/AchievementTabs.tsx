@@ -1,16 +1,13 @@
 import { DialogButtonPrimary, DialogButtonSecondary, Focusable } from "millennium";
 import { type ReactNode, useState } from "react";
-import { SteamHuntersView } from "./SteamHuntersView";
 
-// NOTE: millennium's `Tabs` is a port of Decky's gamepad Tabs. It waits for
-// `window.DeckyPluginLoader.routerHook.routes`, which never exists in the desktop
-// client, so it renders a SteamSpinner forever. We use a simple button tab bar instead.
+import { SteamHuntersView } from "./views/SteamHuntersView";
 
 type TabId = "valve" | "uas";
 
 const TABS: { id: TabId; title: string }[] = [
   { id: "valve", title: "Achievement Sets" },
-  { id: "uas", title: "SteamHunters" },
+  { id: "uas", title: "UAS" },
 ];
 
 interface AchievementTabsProps {
@@ -28,7 +25,9 @@ export const AchievementTabs = ({ appid, overlayPinned, children }: AchievementT
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <Focusable style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+      <Focusable
+        style={{ display: "flex", flexDirection: "row", gap: "16px", justifyContent: "center" }}
+      >
         {TABS.map(({ id, title }) => {
           const Button = id === tab ? DialogButtonPrimary : DialogButtonSecondary;
           return (
@@ -42,7 +41,7 @@ export const AchievementTabs = ({ appid, overlayPinned, children }: AchievementT
           );
         })}
       </Focusable>
-      {tab === "valve" ? children : SteamHuntersView({ appid })}
+      {tab === "valve" ? children : <SteamHuntersView appid={appid} />}
     </div>
   );
 };

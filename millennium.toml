@@ -9,37 +9,12 @@ description = "A Millennium plugin to provide actual, useful achievement sets fo
 # reference resources to be included inside the plugin at compile time
 resources = ["resources/**/*"]
 
-# THE BELOW IS NOT YET IMPLEMENTED IN MILLENNIUM
-# --------------------
-# A simple script that returns a tuple [boolean: ok, string: error].
-# ok = plugin is usable on the current platform/environment
-# error = the error message if !ok
-# ex: jit.os == "Windows"
-# [preload]
-# entry = "preload.lua"
-
 [backend]
 entry = "backend/main.lua"
 sources = ["backend/**/*.lua"]
 
 [frontend]
 entry = "frontend/index.tsx"
-
-[frontend.globals]
-# Hook imports/refernces at compile time
-
-# ex:
-# "react" = "window.SOME_FAKE_REACT"
-
-# All imports to "react" get hooked and replaced with window.SOME_FAKE_REACT.
-# import { useEffect } from "react";
-# useEffect() -> window.SOME_FAKE_REACT.useEffect() at runtime
-
-# [webkit]
-# entry = "webview/preload.ts"
-
-# [webkit.globals]
-# same as frontend.globals
 
 [compiler]
 # output path
