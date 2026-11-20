@@ -1,4 +1,6 @@
 // https://steamhunters.com/api/Help/ResourceModel?modelName=Obtainability
+import { AppAchievement } from "millennium";
+
 enum Obtainability {
   Obtainable,
   BrokenButObtainable,
@@ -17,4 +19,11 @@ export interface AchievementDetails {
   points: number;
   steamPoints: number;
   obtainability: Obtainability;
+}
+
+export interface Achievement extends AchievementDetails, AppAchievement {}
+
+export interface IAchievementSet {
+  name: string;
+  achievements: Achievement[];
 }

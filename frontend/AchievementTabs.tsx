@@ -33,7 +33,7 @@ export const AchievementTabs = ({ appid, overlayPinned, children }: AchievementT
           return (
             <TabButton
               key={id}
-              style={{ width: "auto", minWidth: "160px" }}
+              style={{ width: "auto", minWidth: "160px", cursor: "pointer" }}
               onClick={() => setTab(id)}
             >
               {title}
