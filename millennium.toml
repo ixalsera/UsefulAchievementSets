@@ -3,7 +3,7 @@ id = "ne.ixni.usefulachievementsets"
 name = "Useful Achievement Sets"
 version = "1.0.0"
 author = "ixalsera"
-description = "A Millennium plugin to provide actual, useful achievement sets for Steam games according to SteamHunters"
+description = "A Millennium plugin to provide actual, useful achievement sets for Steam games, according to SteamHunters"
 
 [assets]
 # reference resources to be included inside the plugin at compile time

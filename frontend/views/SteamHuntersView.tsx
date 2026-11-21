@@ -8,16 +8,17 @@ interface SteamHuntersViewProps {
 }
 
 export function SteamHuntersView({ appid }: SteamHuntersViewProps) {
-  const { loading, error, sets } = useAchievementData(appid);
+  const { loading, error, app } = useAchievementData(appid);
 
   return (
     <ErrorBoundary>
       {loading ? (
         <SteamSpinner background="transparent" />
-      ) : error ? (
-        <div data-appid={appid}>{error}</div>
+      ) : app ? (
+        // TODO: Add a header here
+        <AchievementSets sets={app.achievementSets} />
       ) : (
-        <AchievementSets sets={sets} />
+        <div data-appid={appid}>{error}</div>
       )}
     </ErrorBoundary>
   );

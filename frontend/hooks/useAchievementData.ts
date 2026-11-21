@@ -2,7 +2,7 @@ import { AppAchievement } from "millennium";
 import { useEffect, useMemo, useState } from "react";
 
 import { Achievement, AchievementDetails, IAchievementSet } from "../interfaces/Achievements";
-import { AppDetails } from "../interfaces/Apps";
+import { AppDetails, AppAchievements } from "../interfaces/Apps";
 import { IGroup, IGroups } from "../interfaces/Groups";
 import {
   getAchievementDetails,
@@ -20,8 +20,8 @@ export function useAchievementData(appid: number) {
   const [achievements, setAchievements] = useState<Array<AppAchievement>>();
   const [error, setError] = useState<string>();
 
-  const sets: IAchievementSet[] = useMemo(() => {
-    if (!achievementData || !achievements) return [];
+  const app: AppAchievements | null = useMemo(() => {
+    if (!achievementData || !achievements || !appInfo) return null;
 
     const baseSet: IAchievementSet = {
       name: "Base Game",
@@ -64,13 +64,15 @@ export function useAchievementData(appid: number) {
       }
     }
 
-    return [baseSet, ...groupSets];
-  }, [achievementData, groups, achievements]);
+    return {
+      ...appInfo,
+      achievementSets: [baseSet, ...groupSets],
+    };
+  }, [achievementData, groups, achievements, appInfo]);
 
   useEffect(() => {
     let cancelled = false; // ignore the result if the component unmounts first
 
-    // Grab our data then do some horrific Promise chaining. Yuck!
     Promise.all([
       getAchievementDetails(appid).then((result) => {
         if (cancelled) return;
@@ -108,5 +110,5 @@ export function useAchievementData(appid: number) {
     };
   }, [appid]);
 
-  return { achievementData, groups, appInfo, loading, error, achievements, sets };
+  return { achievementData, groups, appInfo, loading, error, achievements, app };
 }

@@ -11,7 +11,7 @@ export function AchievementSets({ sets }: AchievementSetsProps) {
   return (
     <ScrollPanel>
       {sets.map((set) => (
-        <AchievementSet set={set} />
+        <AchievementSet key={set.name} set={set} />
       ))}
     </ScrollPanel>
   );

@@ -1,6 +1,5 @@
 local logger     = require("logger")
 local millennium = require("millennium")
-local utils      = require("utils")
 
 -- define the RPC functions
 require("rpc_functions")
@@ -18,7 +17,6 @@ end
 
 -- Called when the Steam UI has fully loaded.
 local function on_frontend_loaded()
-    local start = utils.time_micro()
     logger:info("Frontend load notification received!")
     -- once the frontend is loaded, we can make calls with it.
 end

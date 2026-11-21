@@ -1,7 +1,6 @@
-import { definePlugin, Field } from "millennium";
+import { definePlugin, Field, IconsModule } from "millennium";
 
 import { AchievementTabs } from "./AchievementTabs";
-import { Icon } from "./components/Icon";
 
 const SettingsContent = () => {
   return <Field label="Hello, World!" />;
@@ -21,7 +20,7 @@ export default definePlugin(() => {
 
   return {
     title: "Useful Achievement Sets",
-    icon: <Icon />,
+    icon: <IconsModule.Achievement />,
     content: <SettingsContent />,
   };
 });
