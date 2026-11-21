@@ -12,8 +12,7 @@ export function AchievementSet({ set }: AchievementSetProps) {
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        columnGap: "1rem",
-        padding: "0 0.75rem",
+        gap: "1rem",
       }}
     >
       <h1>{set.name}</h1>

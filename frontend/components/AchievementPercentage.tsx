@@ -16,6 +16,8 @@ export function AchievementPercentage({ shPerc, steamPerc }: AchievementPercenta
     <span
       style={{
         color: determineColor(),
+        width: "3rem",
+        textAlign: "right",
       }}
     >
       {shPerc.toFixed(1)}%

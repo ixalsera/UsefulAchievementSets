@@ -1,6 +1,7 @@
-import { definePlugin, Field, IconsModule } from "millennium";
+import { definePlugin, Field } from "millennium";
 
 import { AchievementTabs } from "./AchievementTabs";
+import { SteamIcons } from "./util/icons";
 
 const SettingsContent = () => {
   return <Field label="Hello, World!" />;
@@ -20,7 +21,7 @@ export default definePlugin(() => {
 
   return {
     title: "Useful Achievement Sets",
-    icon: <IconsModule.Achievement />,
+    icon: <SteamIcons.Achievement />,
     content: <SettingsContent />,
   };
 });
