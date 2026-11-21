@@ -13,15 +13,26 @@ export function AchievementSet({ set }: AchievementSetProps) {
 
   return (
     <div
+      className="uasAchievementSet"
       style={{
-        width: "100%",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
+        background: "rgba(0,0,0,0.1)",
+        padding: "0.5rem",
+        borderRadius: "0.5rem",
       }}
     >
       <SetHeader achSet={set} collapsed={collapsed} onToggle={() => setCollapsed((c) => !c)} />
-      <div className="achievementList" style={{ display: collapsed ? "none" : "" }}>
+      <div
+        className="uasAchievementList"
+        style={{
+          display: collapsed ? "none" : "flex",
+          flexDirection: "column",
+          gap: "0.5rem",
+          transition: "transform 150ms ease",
+        }}
+      >
         {set.achievements.map((achievement) => (
           <Achievement key={achievement.achievementId} achievement={achievement} />
         ))}

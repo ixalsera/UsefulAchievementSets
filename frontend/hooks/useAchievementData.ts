@@ -19,7 +19,7 @@ function determineCompletionStats(achievements: Achievement[]) {
     if (cheev.rtUnlocked) achieved += 1;
   }
 
-  if (achievements && achieved) completionPercentage = achieved / achievements.length;
+  if (achievements && achieved) completionPercentage = (achieved / achievements.length) * 100;
 
   return {
     achieved,
