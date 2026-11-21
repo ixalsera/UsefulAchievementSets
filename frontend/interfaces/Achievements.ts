@@ -27,4 +27,6 @@ export interface AchievementSet {
   name: string;
   appId: number;
   achievements: Achievement[];
+  achieved: number;
+  completionPercentage: number;
 }

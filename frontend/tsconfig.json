@@ -1,5 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "include": [".", "../.millennium/types/**/*.d.ts"],
+  "include": [".", "../.millennium/types/**/*.d.ts", "./types/*.d.ts"],
   "exclude": ["node_modules", "../webview"]
 }

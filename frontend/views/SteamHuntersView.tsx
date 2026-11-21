@@ -1,6 +1,6 @@
 import { ErrorBoundary, SteamSpinner } from "millennium";
 
-import { Sets } from "../components/set/Sets";
+import { AchievementSets } from "../components/set/AchievementSets";
 import { useAchievementData } from "../hooks/useAchievementData";
 
 interface SteamHuntersViewProps {
@@ -16,7 +16,7 @@ export function SteamHuntersView({ appid }: SteamHuntersViewProps) {
         <SteamSpinner background="transparent" />
       ) : app ? (
         // TODO: Add a header here
-        <Sets sets={app.achievementSets} />
+        <AchievementSets sets={app.achievementSets} />
       ) : (
         <div data-appid={appid}>{error}</div>
       )}

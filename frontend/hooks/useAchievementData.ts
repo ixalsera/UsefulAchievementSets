@@ -11,6 +11,22 @@ import {
   fetchUserAchievements,
 } from "../util/dataFetcher";
 
+function determineCompletionStats(achievements: Achievement[]) {
+  let achieved = 0;
+  let completionPercentage = 0;
+
+  for (const cheev of achievements) {
+    if (cheev.rtUnlocked) achieved += 1;
+  }
+
+  if (achievements && achieved) completionPercentage = achieved / achievements.length;
+
+  return {
+    achieved,
+    completionPercentage,
+  };
+}
+
 // Note to self: These are like Vue composables; if you remember those!
 export function useAchievementData(appid: number) {
   const [achievementData, setAchievementData] = useState<Array<AchievementDetails>>();
@@ -23,10 +39,12 @@ export function useAchievementData(appid: number) {
   const app: AppAchievements | null = useMemo(() => {
     if (!achievementData || !achievements || !appInfo) return null;
 
-    const baseSet: AchievementSet = {
-      name: "Base Game",
+    let baseSet: AchievementSet = {
+      name: appInfo.name,
       appId: appInfo.appId,
       achievements: [],
+      achieved: 0,
+      completionPercentage: 0,
     };
     let groupSets: AchievementSet[] = [];
 
@@ -51,10 +69,13 @@ export function useAchievementData(appid: number) {
           ungrouped.delete(apiName);
         }
 
+        const completionStats = determineCompletionStats(cheevs);
+
         return {
           name,
           appId,
           achievements: cheevs,
+          ...completionStats,
         };
       });
     }
@@ -66,6 +87,11 @@ export function useAchievementData(appid: number) {
         baseSet.achievements.push({ ...cheev, ...details });
       }
     }
+
+    baseSet = {
+      ...baseSet,
+      ...determineCompletionStats(baseSet.achievements),
+    };
 
     return {
       ...appInfo,
