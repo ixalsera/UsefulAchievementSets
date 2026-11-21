@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "dev": "starlight watch",
     "build": "starlight pack",
+    "dev": "starlight watch",
     "dev:build": "./scripts/dev-build.sh",
     "prepare": "starlight lsp",
     "lint": "oxlint",

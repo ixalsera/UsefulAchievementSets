@@ -1,4 +1,4 @@
-import { Achievement } from "../interfaces/Achievements";
+import { Achievement } from "../../interfaces/Achievements";
 import { AchievementPercentage } from "./AchievementPercentage";
 import { AchievementPoints } from "./AchievementPoints";
 

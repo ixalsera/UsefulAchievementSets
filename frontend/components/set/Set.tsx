@@ -1,11 +1,12 @@
-import { IAchievementSet } from "../interfaces/Achievements";
-import { Achievement } from "./Achievement";
+import { AchievementSet } from "../../interfaces/Achievements";
+import { Achievement } from "../achievement/Achievement";
+import { SetHeader } from "./SetHeader";
 
 interface AchievementSetProps {
-  set: IAchievementSet;
+  set: AchievementSet;
 }
 
-export function AchievementSet({ set }: AchievementSetProps) {
+export function Set({ set }: AchievementSetProps) {
   return (
     <div
       style={{
@@ -15,7 +16,7 @@ export function AchievementSet({ set }: AchievementSetProps) {
         gap: "1rem",
       }}
     >
-      <h1>{set.name}</h1>
+      <SetHeader set={set} />
       {set.achievements.map((achievement) => (
         <Achievement key={achievement.achievementId} achievement={achievement} />
       ))}

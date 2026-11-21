@@ -1,14 +1,14 @@
 import { AppAchievement } from "millennium";
 import { useEffect, useMemo, useState } from "react";
 
-import { Achievement, AchievementDetails, IAchievementSet } from "../interfaces/Achievements";
+import { Achievement, AchievementDetails, AchievementSet } from "../interfaces/Achievements";
 import { AppDetails, AppAchievements } from "../interfaces/Apps";
-import { IGroup, IGroups } from "../interfaces/Groups";
+import { IGroup } from "../interfaces/Groups";
 import {
-  getAchievementDetails,
-  getAppInfo,
-  getGroups,
-  getUserAchievements,
+  fetchAchievementDetails,
+  fetchAppInfo,
+  fetchGroups,
+  fetchUserAchievements,
 } from "../util/dataFetcher";
 
 // Note to self: These are like Vue composables; if you remember those!
@@ -23,11 +23,12 @@ export function useAchievementData(appid: number) {
   const app: AppAchievements | null = useMemo(() => {
     if (!achievementData || !achievements || !appInfo) return null;
 
-    const baseSet: IAchievementSet = {
+    const baseSet: AchievementSet = {
       name: "Base Game",
+      appId: appInfo.appId,
       achievements: [],
     };
-    let groupSets: IAchievementSet[] = [];
+    let groupSets: AchievementSet[] = [];
 
     const detailsById = new Map<string, AchievementDetails>(
       achievementData.map((d) => [d.apiName, d]),
@@ -36,8 +37,9 @@ export function useAchievementData(appid: number) {
     const ungrouped = new Set(achievementsById.keys());
 
     if (groups) {
-      groupSets = groups.map((group) => {
+      groupSets = groups.map((group): AchievementSet => {
         const name = group.dlcAppName ?? group.name;
+        const appId = group.dlcAppId ?? appInfo.appId;
         const cheevs: Achievement[] = [];
 
         for (const apiName of group.achievementApiNames) {
@@ -50,7 +52,8 @@ export function useAchievementData(appid: number) {
         }
 
         return {
-          name: name,
+          name,
+          appId,
           achievements: cheevs,
         };
       });
@@ -74,25 +77,21 @@ export function useAchievementData(appid: number) {
     let cancelled = false; // ignore the result if the component unmounts first
 
     Promise.all([
-      getAchievementDetails(appid).then((result) => {
+      fetchAchievementDetails(appid).then((result) => {
         if (cancelled) return;
-        const achievementData = result as unknown as AchievementDetails[];
-        setAchievementData(achievementData);
+        setAchievementData(result);
       }),
-      getGroups(appid).then((result) => {
+      fetchGroups(appid).then((result) => {
         if (cancelled) return;
-        const groupings = result as unknown as IGroups;
-        setGroups(groupings.groups);
+        setGroups(result.groups);
       }),
-      getAppInfo(appid).then((result) => {
+      fetchAppInfo(appid).then((result) => {
         if (cancelled) return;
-        const appInfo = result as unknown as AppDetails;
-        setAppInfo(appInfo);
+        setAppInfo(result);
       }),
-      getUserAchievements(appid).then((result) => {
+      fetchUserAchievements(appid).then((result) => {
         if (cancelled) return;
-        const achievements = result.data.rgAchievements;
-        setAchievements(achievements);
+        setAchievements(result.data.rgAchievements);
       }),
     ])
       .then(() => {

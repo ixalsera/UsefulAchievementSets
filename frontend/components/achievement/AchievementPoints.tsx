@@ -1,4 +1,4 @@
-import { SteamIcons } from "../util/icons";
+import { SteamIcons } from "../../util/icons";
 
 interface AchievementPointsProps {
   points: number;

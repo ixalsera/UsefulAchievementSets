@@ -1,6 +1,6 @@
 import { EAppType, ESteamDeckCompatibilityCategory } from "millennium";
 
-import { IAchievementSet } from "./Achievements";
+import { AchievementSet } from "./Achievements";
 
 interface Association {
   name: string;
@@ -45,5 +45,5 @@ export interface AppDetails {
 }
 
 export interface AppAchievements extends AppDetails {
-  achievementSets: Array<IAchievementSet>;
+  achievementSets: Array<AchievementSet>;
 }

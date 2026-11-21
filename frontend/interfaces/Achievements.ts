@@ -23,7 +23,8 @@ export interface AchievementDetails {
 
 export interface Achievement extends AchievementDetails, AppAchievement {}
 
-export interface IAchievementSet {
+export interface AchievementSet {
   name: string;
+  appId: number;
   achievements: Achievement[];
 }
