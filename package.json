@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "dev": "./node_modules/.bin/starlight watch",
-    "build": "./node_modules/.bin/starlight pack",
-    "prepare": "./node_modules/.bin/starlight lsp",
+    "dev": "starlight watch",
+    "build": "starlight pack",
+    "dev:build": "./scripts/dev-build.sh",
+    "prepare": "starlight lsp",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
