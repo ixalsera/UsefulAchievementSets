@@ -26,6 +26,7 @@ export interface Achievement extends AchievementDetails, AppAchievement {}
 export interface AchievementSet {
   name: string;
   appId: number;
+  isDlc: boolean;
   achievements: Achievement[];
   achieved: number;
   completionPercentage: number;

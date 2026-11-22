@@ -42,6 +42,7 @@ export function useAchievementData(appid: number) {
     let baseSet: AchievementSet = {
       name: appInfo.name,
       appId: appInfo.appId,
+      isDlc: false,
       achievements: [],
       achieved: 0,
       completionPercentage: 0,
@@ -58,6 +59,7 @@ export function useAchievementData(appid: number) {
       groupSets = groups.map((group): AchievementSet => {
         const name = group.dlcAppName ?? group.name;
         const appId = group.dlcAppId ?? appInfo.appId;
+        const isDlc = Boolean(group.dlcAppId);
         const cheevs: Achievement[] = [];
 
         for (const apiName of group.achievementApiNames) {
@@ -74,6 +76,7 @@ export function useAchievementData(appid: number) {
         return {
           name,
           appId,
+          isDlc,
           achievements: cheevs,
           ...completionStats,
         };

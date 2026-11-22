@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Achievement } from "../../interfaces/Achievements";
 import { AchievementPercentage } from "./AchievementPercentage";
 import { AchievementPoints } from "./AchievementPoints";
@@ -7,34 +9,53 @@ interface AchievementProps {
 }
 
 export function Achievement({ achievement }: AchievementProps) {
+  const [blurred, setBlurred] = useState(!achievement.rtUnlocked && achievement.bHidden);
+  const unlockTime = new Date(achievement.rtUnlocked * 1000);
+
   function determineAchievementBackground() {
     const color = achievement.rtUnlocked ? "rgba(72, 144, 72, 0.2)" : "rgba(255, 255, 255, 0.1)";
     return `linear-gradient(to right, ${color} ${achievement.localPercentage}%, transparent ${achievement.localPercentage}%)`;
   }
 
-  function shouldBlur() {
-    if (achievement.rtUnlocked) {
-      return false;
-    }
-    return achievement.bHidden;
-  }
-
-  const unlockTime = new Date(achievement.rtUnlocked * 1000);
-
   return (
     <div
       className="achievement"
       style={{
+        position: "relative",
         display: "flex",
         flexDirection: "row",
         gap: "1rem",
         padding: "0 2rem",
-        filter: `blur(${shouldBlur() ? "10px" : "0"})`,
       }}
+      onClick={() => !achievement.rtUnlocked && achievement.bHidden && setBlurred((b) => !b)}
     >
+      {blurred && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            inset: 0,
+            zIndex: 1,
+            cursor: "pointer",
+          }}
+        >
+          <span style={{ fontWeight: "bold" }}>Spoiler Alert!</span>
+          <span style={{ fontSize: "0.8rem" }}>Click to reveal this achievement</span>
+        </div>
+      )}
       <div
         className="achievementIcon"
-        style={{ height: "64px", width: "64px", display: "flex", padding: "0" }}
+        style={{
+          height: "64px",
+          width: "64px",
+          display: "flex",
+          padding: "0",
+          filter: `blur(${blurred ? "10px" : "0"})`,
+          transition: "filter 150ms ease",
+        }}
       >
         <img
           src={achievement.strImage}
@@ -53,13 +74,15 @@ export function Achievement({ achievement }: AchievementProps) {
           background: determineAchievementBackground(),
           height: "64px",
           boxSizing: "border-box",
+          filter: `blur(${blurred ? "10px" : "0"})`,
+          transition: "filter 150ms ease",
         }}
       >
         <div
           className="achievementCopy"
           style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
         >
-          <span>{achievement.name}</span>
+          <span style={{ fontWeight: "bold" }}>{achievement.name}</span>
           <span style={{ fontSize: "0.8rem" }}>{achievement.description}</span>
         </div>
         <div

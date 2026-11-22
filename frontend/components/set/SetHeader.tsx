@@ -2,6 +2,7 @@ import { ProgressBar } from "millennium";
 import { useEffect, useState } from "react";
 
 import { AchievementSet } from "../../interfaces/Achievements";
+import { GroupAchievementRibbon } from "../../util/extraSteam";
 import { SteamIcons } from "../../util/icons";
 
 interface SetHeaderProps {
@@ -27,6 +28,14 @@ export function SetHeader({ achSet, collapsed, onToggle }: SetHeaderProps) {
       <div className="uasAchievementSetBanner" style={{ width: "185px", height: "70px" }}>
         <img src={capsuleImage} width="100%" height="100%" alt={achSet.name} />
       </div>
+      <div className="uasSetTrophy" style={{ alignContent: "center" }}>
+        {GroupAchievementRibbon &&
+          (achSet.completionPercentage >= 100 ? (
+            <GroupAchievementRibbon isComplete isDlc={achSet.isDlc} shine />
+          ) : (
+            <GroupAchievementRibbon isDlc={achSet.isDlc} />
+          ))}
+      </div>
       <div
         className="uasAchievementSetHeaderContent"
         style={{
@@ -38,7 +47,9 @@ export function SetHeader({ achSet, collapsed, onToggle }: SetHeaderProps) {
       >
         <span style={{ fontWeight: "bold" }}>{achSet.name}</span>
         <ProgressBar nProgress={achSet.completionPercentage} />
-        <div>{`${achSet.achieved}/${achSet.achievements.length} (${achSet.completionPercentage.toFixed(1)}%)`}</div>
+        <div
+          style={{ fontSize: "0.8rem" }}
+        >{`${achSet.achieved}/${achSet.achievements.length} (${achSet.completionPercentage.toFixed(1)}%)`}</div>
       </div>
       <div>
         <span

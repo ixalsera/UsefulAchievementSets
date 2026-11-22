@@ -1,4 +1,4 @@
-export interface StoreBrowseItemDataRequest {
+interface StoreBrowseItemDataRequest {
   apply_user_filters?: boolean;
   include_all_purchase_options?: boolean;
   include_assets?: boolean;
@@ -18,7 +18,7 @@ export interface StoreBrowseItemDataRequest {
   included_item_data_request?: StoreBrowseItemDataRequest;
 }
 
-export interface StoreAppAssetsItem {
+interface StoreAppAssetsItem {
   ConstructAssetURL(j, A): string;
   GetCommunityIconURL(): string;
   GetCommunityIconURL_Full(): string;
@@ -36,7 +36,7 @@ export interface StoreAppAssetsItem {
   GetSmallCapsuleURL(): string;
 }
 
-export interface StoreApp {
+interface StoreApp {
   GetAllCreatorClanIDs(): unknown;
   GetAllDeveloperCreatorClans(): unknown;
   GetAllFranchiseCreatorClans(): unknown;
