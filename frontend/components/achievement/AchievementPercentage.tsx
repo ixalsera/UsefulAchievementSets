@@ -19,7 +19,7 @@ export function AchievementPercentage({ shPerc, steamPerc }: AchievementPercenta
         width: "3rem",
         textAlign: "right",
       }}
-      data-steam={steamPerc}
+      data-steam={steamPerc} // TODO: Use this!
     >
       {shPerc.toFixed(1)}%
     </span>

@@ -1,6 +1,6 @@
 import { definePlugin, Field } from "millennium";
 
-import { AchievementTabs } from "./AchievementTabs";
+import { TabBar } from "./components/TabBar";
 import { SteamIcons } from "./util/icons";
 
 const SettingsContent = () => {
@@ -9,7 +9,7 @@ const SettingsContent = () => {
 
 /** @ffi */
 export const UASAchievementView = {
-  Tabs: AchievementTabs,
+  Tabs: TabBar,
 };
 
 async function initializePlugin() {

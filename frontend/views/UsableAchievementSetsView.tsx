@@ -7,7 +7,7 @@ interface SteamHuntersViewProps {
   appid: number;
 }
 
-export function SteamHuntersView({ appid }: SteamHuntersViewProps) {
+export function UsableAchievementSetsView({ appid }: SteamHuntersViewProps) {
   const { loading, error, app } = useAchievementData(appid);
 
   return (

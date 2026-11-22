@@ -13,6 +13,7 @@ export function AchievementPoints({ points }: AchievementPointsProps) {
         alignItems: "center",
         paddingRight: "0.5rem",
         boxSizing: "border-box",
+        color: "var(--color-blue-9)",
       }}
     >
       <span>{points}</span>
