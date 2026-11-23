@@ -1,3 +1,5 @@
+import { EResult } from "millennium";
+
 import { AchievementDetails } from "../interfaces/Achievements";
 import { AppDetails } from "../interfaces/Apps";
 import { IGroups } from "../interfaces/Groups";
@@ -42,7 +44,21 @@ export async function fetchAppInfo(appId: number) {
   return fetchedData as unknown as AppDetails;
 }
 
-export function fetchUserAchievements(appId: number) {
-  // I assume Steam caches this data itself so not going to handle caching here
-  return SteamClient.Apps.GetMyAchievementsForApp(String(appId));
+/**
+ * Uses the internal SteamClient to fetch achievements for a given AppId.
+ *
+ * Note: If a user does not own an AppId, the promise succeeds but with a
+ * `EResult.Fail`. This can happen if, for instance, a user has played during
+ * a Free Weekend previously.
+ *
+ * @param appId
+ */
+export async function fetchUserAchievements(appId: number) {
+  const resp = await SteamClient.Apps.GetMyAchievementsForApp(String(appId));
+  if (resp.result !== EResult.OK) {
+    throw new Error(`GetMyAchievementsForApp(${appId}) failed with EResult ${resp.result}`, {
+      cause: resp,
+    });
+  }
+  return resp.data.rgAchievements;
 }

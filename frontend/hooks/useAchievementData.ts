@@ -10,6 +10,16 @@ import {
   fetchGroups,
   fetchUserAchievements,
 } from "../util/dataFetcher";
+import {
+  sortByDefault,
+  sortByName,
+  sortByPoints,
+  sortByPointsSteam,
+  sortByRarityHunters,
+  sortByRaritySteam,
+  sortByUnlockDate,
+  SortOptions,
+} from "../util/sortable";
 
 function determineCompletionStats(achievements: Achievement[]) {
   let achieved = 0;
@@ -32,8 +42,10 @@ export function useAchievementData(appid: number) {
   const [achievementData, setAchievementData] = useState<Array<AchievementDetails>>();
   const [groups, setGroups] = useState<Array<IGroup> | null>(null);
   const [appInfo, setAppInfo] = useState<AppDetails | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [achievements, setAchievements] = useState<Array<AppAchievement>>();
+  const [sortOrder, setSortOrder] = useState<SortOptions>(SortOptions.Default);
+
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
 
   const app: AppAchievements | null = useMemo(() => {
@@ -73,6 +85,30 @@ export function useAchievementData(appid: number) {
 
         const completionStats = determineCompletionStats(cheevs);
 
+        switch (sortOrder) {
+          case SortOptions.Default:
+            cheevs.sort(sortByDefault);
+            break;
+          case SortOptions.RaritySteam:
+            cheevs.sort(sortByRaritySteam);
+            break;
+          case SortOptions.RarityHunters:
+            cheevs.sort(sortByRarityHunters);
+            break;
+          case SortOptions.Name:
+            cheevs.sort(sortByName);
+            break;
+          case SortOptions.Points:
+            cheevs.sort(sortByPoints);
+            break;
+          case SortOptions.PointsSteam:
+            cheevs.sort(sortByPointsSteam);
+            break;
+          case SortOptions.UnlockDate:
+            cheevs.sort(sortByUnlockDate);
+            break;
+        }
+
         return {
           name,
           appId,
@@ -91,6 +127,30 @@ export function useAchievementData(appid: number) {
       }
     }
 
+    switch (sortOrder) {
+      case SortOptions.Default:
+        baseSet.achievements.sort(sortByDefault);
+        break;
+      case SortOptions.RaritySteam:
+        baseSet.achievements.sort(sortByRaritySteam);
+        break;
+      case SortOptions.RarityHunters:
+        baseSet.achievements.sort(sortByRarityHunters);
+        break;
+      case SortOptions.Name:
+        baseSet.achievements.sort(sortByName);
+        break;
+      case SortOptions.Points:
+        baseSet.achievements.sort(sortByPoints);
+        break;
+      case SortOptions.PointsSteam:
+        baseSet.achievements.sort(sortByPointsSteam);
+        break;
+      case SortOptions.UnlockDate:
+        baseSet.achievements.sort(sortByUnlockDate);
+        break;
+    }
+
     baseSet = {
       ...baseSet,
       ...determineCompletionStats(baseSet.achievements),
@@ -100,7 +160,7 @@ export function useAchievementData(appid: number) {
       ...appInfo,
       achievementSets: [baseSet, ...groupSets],
     };
-  }, [achievementData, groups, achievements, appInfo]);
+  }, [achievementData, groups, achievements, appInfo, sortOrder]);
 
   useEffect(() => {
     let cancelled = false; // ignore the result if the component unmounts first
@@ -120,7 +180,7 @@ export function useAchievementData(appid: number) {
       }),
       fetchUserAchievements(appid).then((result) => {
         if (cancelled) return;
-        setAchievements(result.data.rgAchievements);
+        setAchievements(result);
       }),
     ])
       .then(() => {
@@ -138,5 +198,15 @@ export function useAchievementData(appid: number) {
     };
   }, [appid]);
 
-  return { achievementData, groups, appInfo, loading, error, achievements, app };
+  return {
+    achievementData,
+    groups,
+    appInfo,
+    loading,
+    error,
+    achievements,
+    app,
+    sortOrder,
+    setSortOrder,
+  };
 }
