@@ -1,3 +1,5 @@
+import { DialogButtonSecondary } from "millennium";
+
 import { SteamIcons } from "../util/icons";
 import { SortOptions } from "../util/sortable";
 import { Select } from "./ui/Select";
@@ -5,9 +7,10 @@ import { Select } from "./ui/Select";
 interface SortAndFilterProps {
   sortBy: SortOptions;
   onSortSelected: (sortOrder: SortOptions) => void;
+  clearCache: any;
 }
 
-export function SortAndFilter({ sortBy, onSortSelected }: SortAndFilterProps) {
+export function SortAndFilter({ sortBy, onSortSelected, clearCache }: SortAndFilterProps) {
   const sortingOptions = [
     { data: SortOptions.Default, label: "Default" },
     { data: SortOptions.UnlockDate, label: "Unlock Date" },
@@ -20,6 +23,7 @@ export function SortAndFilter({ sortBy, onSortSelected }: SortAndFilterProps) {
       <div style={{ display: "flex", flexDirection: "row", gap: "0.5rem", alignItems: "center" }}>
         <Select options={sortingOptions} value={sortBy} onChange={onSortSelected} />
         <SteamIcons.SortDescending width="1em" height="1em" />
+        <DialogButtonSecondary onClick={clearCache}>Clear Cache</DialogButtonSecondary>
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ export function Achievement({ achievement }: AchievementProps) {
         position: "relative",
         display: "flex",
         flexDirection: "row",
+        alignItems: "center",
         gap: "1rem",
         padding: "0 2rem",
       }}
@@ -52,7 +53,8 @@ export function Achievement({ achievement }: AchievementProps) {
           height: "64px",
           width: "64px",
           display: "flex",
-          padding: "0",
+          flexShrink: 0,
+          padding: "0px",
           filter: `blur(${blurred ? "10px" : "0"})`,
           transition: "filter 150ms ease",
         }}
@@ -72,7 +74,7 @@ export function Achievement({ achievement }: AchievementProps) {
           justifyContent: "space-between",
           padding: "0.3rem 0.5rem",
           background: determineAchievementBackground(),
-          height: "64px",
+          minHeight: "64px",
           boxSizing: "border-box",
           filter: `blur(${blurred ? "10px" : "0"})`,
           transition: "filter 150ms ease",

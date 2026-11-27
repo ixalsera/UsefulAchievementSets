@@ -1,5 +1,5 @@
 import { AppAchievement } from "millennium";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Achievement, AchievementDetails, AchievementSet } from "../interfaces/Achievements";
 import { AppDetails, AppAchievements } from "../interfaces/Apps";
@@ -37,6 +37,16 @@ function determineCompletionStats(achievements: Achievement[]) {
   };
 }
 
+async function loadAchievementData(appId: number) {
+  const [details, groups, info, achievements] = await Promise.all([
+    fetchAchievementDetails(appId),
+    fetchGroups(appId),
+    fetchAppInfo(appId),
+    fetchUserAchievements(appId),
+  ]);
+  return { details, groups: groups.groups, info, achievements };
+}
+
 // Note to self: These are like Vue composables; if you remember those!
 export function useAchievementData(appid: number) {
   const [achievementData, setAchievementData] = useState<Array<AchievementDetails>>();
@@ -47,6 +57,13 @@ export function useAchievementData(appid: number) {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const refetch = useCallback(() => {
+    setLoading(true);
+    setError(undefined);
+    setReloadKey((k) => k + 1);
+  }, []);
 
   const app: AppAchievements | null = useMemo(() => {
     if (!achievementData || !achievements || !appInfo) return null;
@@ -163,40 +180,27 @@ export function useAchievementData(appid: number) {
   }, [achievementData, groups, achievements, appInfo, sortOrder]);
 
   useEffect(() => {
-    let cancelled = false; // ignore the result if the component unmounts first
+    let cancelled = false;
 
-    Promise.all([
-      fetchAchievementDetails(appid).then((result) => {
+    loadAchievementData(appid)
+      .then((data) => {
         if (cancelled) return;
-        setAchievementData(result);
-      }),
-      fetchGroups(appid).then((result) => {
-        if (cancelled) return;
-        setGroups(result.groups);
-      }),
-      fetchAppInfo(appid).then((result) => {
-        if (cancelled) return;
-        setAppInfo(result);
-      }),
-      fetchUserAchievements(appid).then((result) => {
-        if (cancelled) return;
-        setAchievements(result);
-      }),
-    ])
-      .then(() => {
-        if (cancelled) return;
-        setLoading(false);
+        setAchievementData(data.details);
+        setGroups(data.groups);
+        setAppInfo(data.info);
+        setAchievements(data.achievements);
       })
       .catch((e) => {
-        if (cancelled) return;
-        setError(String(e));
-        setLoading(false);
+        if (!cancelled) setError(String(e));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
       });
 
     return () => {
       cancelled = true;
     };
-  }, [appid]);
+  }, [appid, reloadKey]);
 
   return {
     achievementData,
@@ -208,5 +212,6 @@ export function useAchievementData(appid: number) {
     app,
     sortOrder,
     setSortOrder,
+    refetch,
   };
 }

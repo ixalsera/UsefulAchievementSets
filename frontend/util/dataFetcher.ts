@@ -3,14 +3,14 @@ import { EResult } from "millennium";
 import { AchievementDetails } from "../interfaces/Achievements";
 import { AppDetails } from "../interfaces/Apps";
 import { IGroups } from "../interfaces/Groups";
-import { fetchCachedData, storeData } from "./store";
+import { CacheType, determineCacheKey, fetchCachedData, storeData } from "./cache";
 
 export async function fetchAchievementDetails(appId: number) {
-  const cacheKey = `sh_ach_details_${appId}`;
-  const cachedData = fetchCachedData(cacheKey);
+  const cacheKey = determineCacheKey(CacheType.Details, appId);
+  const cachedData: AchievementDetails[] = fetchCachedData(cacheKey);
   if (cachedData !== null) {
     console.log(`Cached data found for ${cacheKey}!`);
-    return JSON.parse(cachedData) as AchievementDetails[];
+    return cachedData;
   }
   console.log(`No cached data found for ${cacheKey}; fetching...`);
   const fetchedData = await backend.getAchievementDetails(appId);
@@ -19,11 +19,11 @@ export async function fetchAchievementDetails(appId: number) {
 }
 
 export async function fetchGroups(appId: number) {
-  const cacheKey = `sh_ach_groups_${appId}`;
-  const cachedData = fetchCachedData(cacheKey);
+  const cacheKey = determineCacheKey(CacheType.Groups, appId);
+  const cachedData: IGroups = fetchCachedData(cacheKey);
   if (cachedData !== null) {
     console.log(`Cached data found for ${cacheKey}!`);
-    return JSON.parse(cachedData) as IGroups;
+    return cachedData;
   }
   console.log(`No cached data found for ${cacheKey}; fetching...`);
   const fetchedData = await backend.getAchievementGroups(appId);
@@ -32,11 +32,11 @@ export async function fetchGroups(appId: number) {
 }
 
 export async function fetchAppInfo(appId: number) {
-  const cacheKey = `sh_app_info_${appId}`;
-  const cachedData = fetchCachedData(cacheKey);
+  const cacheKey = determineCacheKey(CacheType.AppInfo, appId);
+  const cachedData: AppDetails = fetchCachedData(cacheKey);
   if (cachedData !== null) {
     console.log(`Cached data found for ${cacheKey}!`);
-    return JSON.parse(cachedData) as AppDetails;
+    return cachedData;
   }
   console.log(`No cached data found for ${cacheKey}; fetching...`);
   const fetchedData = await backend.getAppInfo(appId);
