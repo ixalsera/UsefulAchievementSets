@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useCollapse } from "../../context/CollapseContext";
 import { AchievementSet } from "../../interfaces/Achievements";
 import { Achievement } from "../achievement/Achievement";
 import { SetHeader } from "./SetHeader";
@@ -9,7 +8,8 @@ interface AchievementSetProps {
 }
 
 export function AchievementSet({ set }: AchievementSetProps) {
-  const [collapsed, setCollapsed] = useState(false);
+  const { isCollapsed } = useCollapse();
+  const collapsed = isCollapsed(set.name);
 
   return (
     <div
@@ -23,7 +23,7 @@ export function AchievementSet({ set }: AchievementSetProps) {
         borderRadius: "0.5rem",
       }}
     >
-      <SetHeader achSet={set} collapsed={collapsed} onToggle={() => setCollapsed((c) => !c)} />
+      <SetHeader achSet={set} />
       <div
         className="uasAchievementList"
         style={{

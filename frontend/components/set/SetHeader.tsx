@@ -1,17 +1,18 @@
 import { ProgressBar } from "millennium";
 import { useEffect, useState } from "react";
 
+import { useCollapse } from "../../context/CollapseContext";
 import { AchievementSet } from "../../interfaces/Achievements";
 import { GroupAchievementRibbon } from "../../util/extraSteam";
 import { SteamIcons } from "../../util/icons";
 
 interface SetHeaderProps {
   achSet: AchievementSet;
-  collapsed: boolean;
-  onToggle: () => void;
 }
 
-export function SetHeader({ achSet, collapsed, onToggle }: SetHeaderProps) {
+export function SetHeader({ achSet }: SetHeaderProps) {
+  const { isCollapsed, toggle } = useCollapse();
+  const collapsed = isCollapsed(achSet.name);
   const [capsuleImage, setCapsuleImage] = useState<string>();
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export function SetHeader({ achSet, collapsed, onToggle }: SetHeaderProps) {
             transition: "transform 150ms ease",
             transform: collapsed ? "rotate(90deg)" : undefined,
           }}
-          onClick={onToggle}
+          onClick={() => toggle(achSet.name)}
         >
           <SteamIcons.Chevron width="2rem" height="2rem" />
         </span>
