@@ -34,12 +34,14 @@ export function UASOptions({
   return (
     <div style={{ display: "flex", flexDirection: "row", gap: "0.5rem", alignItems: "center" }}>
       <div
+        className="uasOptionsLeft"
         style={{
           display: "flex",
           flexDirection: "row",
           gap: "0.5rem",
           alignItems: "center",
-          flexGrow: 1,
+          justifyContent: "flex-start",
+          flex: "1 1 0",
         }}
       >
         <Select options={sortingOptions} value={sortBy} onChange={onSortSelected} />
@@ -54,17 +56,45 @@ export function UASOptions({
           <SteamIcons.SortDescending width="1em" height="1em" onClick={onToggleSortOrder} />
         </div>
       </div>
-      <DialogButtonSecondary onClick={clearCache}>Clear Cache</DialogButtonSecondary>
       <div
+        className="uasOptionsCenter"
         style={{
-          display: "inline-flex",
-          cursor: "pointer",
-          transition: "transform 150ms ease",
-          transform: allCollapsed ? "rotate(90deg)" : undefined,
+          display: "flex",
+          flexDirection: "row",
+          gap: "0.5rem",
+          alignItems: "center",
+          justifyContent: "center",
+          flex: "1 1 0",
         }}
-        onClick={() => setAll(!allCollapsed)}
+      ></div>
+      <div
+        className="uasOptionsRight"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "0.5rem",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          flex: "1 1 0",
+        }}
       >
-        <SteamIcons.DoubleChevron width="2em" height="2em" />
+        <DialogButtonSecondary
+          style={{ width: "auto", paddingLeft: "1rem", paddingRight: "1rem" }}
+          onClick={clearCache}
+        >
+          Clear Cache
+        </DialogButtonSecondary>
+        <div
+          style={{
+            display: "inline-flex",
+            cursor: "pointer",
+            transition: "transform 150ms ease",
+            transform: allCollapsed ? "rotate(90deg)" : undefined,
+          }}
+          onClick={() => setAll(!allCollapsed)}
+        >
+          <SteamIcons.DoubleChevron width="2em" height="2em" />
+        </div>
       </div>
     </div>
   );
