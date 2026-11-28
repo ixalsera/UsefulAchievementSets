@@ -101,6 +101,7 @@ export function Achievement({ achievement }: AchievementProps) {
             style={{
               display: "flex",
               flexDirection: "row",
+              alignSelf: "end",
             }}
           >
             <AchievementPoints points={achievement.points} />
@@ -110,7 +111,7 @@ export function Achievement({ achievement }: AchievementProps) {
             />
           </div>
           <div className="unlockTime" style={{ textAlign: "right" }}>
-            {achievement.rtUnlocked ? unlockTime.toLocaleDateString() : ""}
+            {achievement.rtUnlocked ? unlockTime.toLocaleString() : ""}
           </div>
         </div>
       </div>
