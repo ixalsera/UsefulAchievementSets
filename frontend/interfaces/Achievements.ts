@@ -1,7 +1,7 @@
 // https://steamhunters.com/api/Help/ResourceModel?modelName=Obtainability
 import { AppAchievement } from "millennium";
 
-enum Obtainability {
+export enum Obtainability {
   Obtainable,
   BrokenButObtainable,
   ConditionallyObtainable,

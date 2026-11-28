@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Achievement } from "../../interfaces/Achievements";
+import { ObtainabilityChip } from "../ui/ObtainabilityChip";
 import { AchievementPercentage } from "./AchievementPercentage";
 import { AchievementPoints } from "./AchievementPoints";
 
@@ -84,7 +85,12 @@ export function Achievement({ achievement }: AchievementProps) {
           className="achievementCopy"
           style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
         >
-          <span style={{ fontWeight: "bold" }}>{achievement.name}</span>
+          <div
+            style={{ display: "flex", flexDirection: "row", gap: "0.5rem", alignItems: "center" }}
+          >
+            <span style={{ fontWeight: "bold" }}>{achievement.name}</span>
+            <ObtainabilityChip obtainability={achievement.obtainability} />
+          </div>
           <span style={{ fontSize: "0.8rem" }}>{achievement.description}</span>
         </div>
         <div
