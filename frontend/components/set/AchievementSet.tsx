@@ -10,12 +10,13 @@ interface AchievementSetProps {
 export function AchievementSet({ set }: AchievementSetProps) {
   const { isCollapsed } = useCollapse();
   const collapsed = isCollapsed(set.name);
+  const hideSet = !set.achievements.length;
 
   return (
     <div
       className="uasAchievementSet"
       style={{
-        display: "flex",
+        display: hideSet ? "none" : "flex",
         flexDirection: "column",
         gap: "1rem",
         background: "rgba(0,0,0,0.1)",

@@ -12,8 +12,18 @@ interface SteamHuntersViewProps {
 }
 
 export function UsableAchievementSetsView({ appid }: SteamHuntersViewProps) {
-  const { loading, error, app, sortBy, setSortBy, reverseSort, toggleSortOrder, refetch } =
-    useAchievementData(appid);
+  const {
+    loading,
+    error,
+    app,
+    sortBy,
+    setSortBy,
+    reverseSort,
+    toggleSortOrder,
+    hideAchieved,
+    toggleAchieved,
+    refetch,
+  } = useAchievementData(appid);
 
   const setKeys = useMemo(() => app?.achievementSets.map((s) => s.name) ?? [], [app]);
 
@@ -34,6 +44,8 @@ export function UsableAchievementSetsView({ appid }: SteamHuntersViewProps) {
               sortOrder={reverseSort}
               onSortSelected={setSortBy}
               onToggleSortOrder={toggleSortOrder}
+              hideAchievements={hideAchieved}
+              onToggleAchieved={toggleAchieved}
               clearCache={clearCacheAndRefetch}
             />
             <AchievementSets sets={app.achievementSets} />

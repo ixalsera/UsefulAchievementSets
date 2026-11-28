@@ -10,6 +10,8 @@ interface SortAndFilterProps {
   onSortSelected: (sortOrder: SortOptions) => void;
   sortOrder: boolean;
   onToggleSortOrder: () => void;
+  hideAchievements: boolean;
+  onToggleAchieved: () => void;
   clearCache: any;
 }
 
@@ -18,6 +20,8 @@ export function UASOptions({
   onSortSelected,
   sortOrder,
   onToggleSortOrder,
+  hideAchievements,
+  onToggleAchieved,
   clearCache,
 }: SortAndFilterProps) {
   const { allCollapsed, setAll } = useCollapse();
@@ -83,6 +87,12 @@ export function UASOptions({
           onClick={clearCache}
         >
           Clear Cache
+        </DialogButtonSecondary>
+        <DialogButtonSecondary
+          style={{ width: "auto", paddingLeft: "1rem", paddingRight: "1rem" }}
+          onClick={onToggleAchieved}
+        >
+          {hideAchievements ? "Show" : "Hide"} Achieved
         </DialogButtonSecondary>
         <div
           style={{

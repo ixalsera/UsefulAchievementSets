@@ -1,4 +1,3 @@
-// https://steamhunters.com/api/Help/ResourceModel?modelName=Obtainability
 import { AppAchievement } from "millennium";
 
 export enum Obtainability {
@@ -8,7 +7,7 @@ export enum Obtainability {
   Unobtainable,
 }
 
-// https://steamhunters.com/api/Help/ResourceModel?modelName=AchievementDetails
+// https://steamhunters.com/api/Help/Api/GET-apps-appId-achievements
 export interface AchievementDetails {
   achievementId: number;
   apiName: string;

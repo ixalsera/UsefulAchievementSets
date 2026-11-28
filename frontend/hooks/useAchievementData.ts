@@ -101,6 +101,7 @@ export function useAchievementData(appid: number) {
   const [achievements, setAchievements] = useState<Array<AppAchievement>>();
   const [sortBy, setSortBy] = useState<SortOptions>(SortOptions.Default);
   const [reverseSort, setReverseSort] = useState<boolean>(false);
+  const [hideAchieved, setHideAchieved] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
@@ -114,6 +115,10 @@ export function useAchievementData(appid: number) {
 
   const toggleSortOrder = useCallback(() => {
     setReverseSort((s) => !s);
+  }, []);
+
+  const toggleAchieved = useCallback(() => {
+    setHideAchieved((s) => !s);
   }, []);
 
   const app: AppAchievements | null = useMemo(() => {
@@ -140,7 +145,7 @@ export function useAchievementData(appid: number) {
         const name = group.dlcAppName ?? group.name;
         const appId = group.dlcAppId ?? appInfo.appId;
         const isDlc = Boolean(group.dlcAppId);
-        const cheevs: Achievement[] = [];
+        let cheevs: Achievement[] = [];
 
         for (const apiName of group.achievementApiNames) {
           const details = detailsById.get(apiName);
@@ -150,6 +155,8 @@ export function useAchievementData(appid: number) {
           }
           ungrouped.delete(apiName);
         }
+
+        if (hideAchieved) cheevs = cheevs.filter((c) => !c.bAchieved);
 
         const completionStats = determineCompletionStats(cheevs);
 
@@ -171,6 +178,7 @@ export function useAchievementData(appid: number) {
       }
     }
 
+    if (hideAchieved) baseSet.achievements = baseSet.achievements.filter((c) => !c.bAchieved);
     baseSet.achievements = sortAchievements(sortBy, baseSet.achievements, reverseSort);
 
     baseSet = {
@@ -182,7 +190,7 @@ export function useAchievementData(appid: number) {
       ...appInfo,
       achievementSets: [baseSet, ...groupSets],
     };
-  }, [achievementData, groups, achievements, appInfo, sortBy, reverseSort]);
+  }, [achievementData, groups, achievements, appInfo, sortBy, reverseSort, hideAchieved]);
 
   useEffect(() => {
     let cancelled = false;
@@ -219,6 +227,8 @@ export function useAchievementData(appid: number) {
     setSortBy,
     reverseSort,
     toggleSortOrder,
+    hideAchieved,
+    toggleAchieved,
     refetch,
   };
 }
