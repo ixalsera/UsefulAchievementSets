@@ -102,6 +102,7 @@ export function useAchievementData(appid: number) {
   const [sortBy, setSortBy] = useState<SortOptions>(SortOptions.Default);
   const [reverseSort, setReverseSort] = useState<boolean>(false);
   const [hideAchieved, setHideAchieved] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
@@ -128,6 +129,7 @@ export function useAchievementData(appid: number) {
       name: appInfo.name,
       appId: appInfo.appId,
       isDlc: false,
+      achievementCount: 0,
       achievements: [],
       achieved: 0,
       completionPercentage: 0,
@@ -156,14 +158,23 @@ export function useAchievementData(appid: number) {
           ungrouped.delete(apiName);
         }
 
-        if (hideAchieved) cheevs = cheevs.filter((c) => !c.bAchieved);
-
+        // Determine these before any filtering or hiding otherwise our set headers start to lie to us
         const completionStats = determineCompletionStats(cheevs);
+        const achievementCount = cheevs.length;
+
+        if (hideAchieved) cheevs = cheevs.filter((c) => !c.bAchieved);
+        if (filter)
+          cheevs = cheevs.filter(
+            (c) =>
+              c.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) ||
+              c.description.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
+          );
 
         return {
           name,
           appId,
           isDlc,
+          achievementCount,
           achievements: sortAchievements(sortBy, cheevs, reverseSort),
           ...completionStats,
         };
@@ -178,19 +189,29 @@ export function useAchievementData(appid: number) {
       }
     }
 
+    // Determine these before any filtering or hiding otherwise our set headers start to lie to us
+    const compStats = determineCompletionStats(baseSet.achievements);
+    baseSet.achievementCount = baseSet.achievements.length;
+
     if (hideAchieved) baseSet.achievements = baseSet.achievements.filter((c) => !c.bAchieved);
+    if (filter)
+      baseSet.achievements = baseSet.achievements.filter(
+        (c) =>
+          c.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) ||
+          c.description.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
+      );
     baseSet.achievements = sortAchievements(sortBy, baseSet.achievements, reverseSort);
 
     baseSet = {
       ...baseSet,
-      ...determineCompletionStats(baseSet.achievements),
+      ...compStats,
     };
 
     return {
       ...appInfo,
       achievementSets: [baseSet, ...groupSets],
     };
-  }, [achievementData, groups, achievements, appInfo, sortBy, reverseSort, hideAchieved]);
+  }, [achievementData, groups, achievements, appInfo, sortBy, reverseSort, hideAchieved, filter]);
 
   useEffect(() => {
     let cancelled = false;
@@ -229,6 +250,8 @@ export function useAchievementData(appid: number) {
     toggleSortOrder,
     hideAchieved,
     toggleAchieved,
+    filter,
+    setFilter,
     refetch,
   };
 }

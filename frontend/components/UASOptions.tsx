@@ -12,6 +12,8 @@ interface SortAndFilterProps {
   onToggleSortOrder: () => void;
   hideAchievements: boolean;
   onToggleAchieved: () => void;
+  filter: string;
+  onFilterChange: (val: string) => void;
   clearCache: any;
 }
 
@@ -22,6 +24,8 @@ export function UASOptions({
   onToggleSortOrder,
   hideAchievements,
   onToggleAchieved,
+  filter,
+  onFilterChange,
   clearCache,
 }: SortAndFilterProps) {
   const { allCollapsed, setAll } = useCollapse();
@@ -70,7 +74,33 @@ export function UASOptions({
           justifyContent: "center",
           flex: "1 1 0",
         }}
-      ></div>
+      >
+        <div
+          className="achievementFilter"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "text",
+            borderRadius: "2px",
+            background: "var(--color-dull-4, #2a2e36)",
+            padding: "0 var(--spacing-3)",
+            boxShadow: "var(--box-shadow-elevation--1)",
+            minHeight: "var(--control-height-2)",
+            color: "var(--text-color)",
+          }}
+        >
+          <div>
+            <input
+              style={{ all: "unset" }}
+              type="text"
+              placeholder="Search..."
+              value={filter}
+              onChange={(e) => onFilterChange(e.target.value)}
+            />
+          </div>
+          <SteamIcons.Search width="0.8rem" height="0.8rem" />
+        </div>
+      </div>
       <div
         className="uasOptionsRight"
         style={{

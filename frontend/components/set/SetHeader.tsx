@@ -50,7 +50,7 @@ export function SetHeader({ achSet }: SetHeaderProps) {
         <ProgressBar nProgress={achSet.completionPercentage} />
         <div
           style={{ fontSize: "0.8rem" }}
-        >{`${achSet.achieved}/${achSet.achievements.length} (${achSet.completionPercentage.toFixed(1)}%)`}</div>
+        >{`${achSet.achieved}/${achSet.achievementCount} (${achSet.completionPercentage.toFixed(1)}%)`}</div>
       </div>
       <div>
         <span

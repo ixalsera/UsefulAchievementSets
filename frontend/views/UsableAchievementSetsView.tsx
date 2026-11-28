@@ -22,6 +22,8 @@ export function UsableAchievementSetsView({ appid }: SteamHuntersViewProps) {
     toggleSortOrder,
     hideAchieved,
     toggleAchieved,
+    filter,
+    setFilter,
     refetch,
   } = useAchievementData(appid);
 
@@ -46,6 +48,8 @@ export function UsableAchievementSetsView({ appid }: SteamHuntersViewProps) {
               onToggleSortOrder={toggleSortOrder}
               hideAchievements={hideAchieved}
               onToggleAchieved={toggleAchieved}
+              filter={filter}
+              onFilterChange={setFilter}
               clearCache={clearCacheAndRefetch}
             />
             <AchievementSets sets={app.achievementSets} />
