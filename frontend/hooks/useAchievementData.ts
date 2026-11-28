@@ -37,6 +37,52 @@ function determineCompletionStats(achievements: Achievement[]) {
   };
 }
 
+function sortAchievements(
+  sortBy: SortOptions,
+  achievements: Achievement[],
+  reverse: boolean,
+): Achievement[] {
+  switch (sortBy) {
+    case SortOptions.Default:
+      achievements.sort((a, b) => {
+        return reverse ? sortByDefault(b, a) : sortByDefault(a, b);
+      });
+      break;
+    case SortOptions.RaritySteam:
+      achievements.sort((a, b) => {
+        return reverse ? sortByRaritySteam(b, a) : sortByRaritySteam(a, b);
+      });
+      break;
+    case SortOptions.RarityHunters:
+      achievements.sort((a, b) => {
+        return reverse ? sortByRarityHunters(b, a) : sortByRarityHunters(a, b);
+      });
+      break;
+    case SortOptions.Name:
+      achievements.sort((a, b) => {
+        return reverse ? sortByName(b, a) : sortByName(a, b);
+      });
+      break;
+    case SortOptions.Points:
+      achievements.sort((a, b) => {
+        return reverse ? sortByPoints(b, a) : sortByPoints(a, b);
+      });
+      break;
+    case SortOptions.PointsSteam:
+      achievements.sort((a, b) => {
+        return reverse ? sortByPointsSteam(b, a) : sortByPointsSteam(a, b);
+      });
+      break;
+    case SortOptions.UnlockDate:
+      achievements.sort((a, b) => {
+        return reverse ? sortByUnlockDate(b, a) : sortByUnlockDate(a, b);
+      });
+      break;
+  }
+
+  return achievements;
+}
+
 async function loadAchievementData(appId: number) {
   const [details, groups, info, achievements] = await Promise.all([
     fetchAchievementDetails(appId),
@@ -53,7 +99,8 @@ export function useAchievementData(appid: number) {
   const [groups, setGroups] = useState<Array<IGroup> | null>(null);
   const [appInfo, setAppInfo] = useState<AppDetails | null>(null);
   const [achievements, setAchievements] = useState<Array<AppAchievement>>();
-  const [sortOrder, setSortOrder] = useState<SortOptions>(SortOptions.Default);
+  const [sortBy, setSortBy] = useState<SortOptions>(SortOptions.Default);
+  const [reverseSort, setReverseSort] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
@@ -63,6 +110,10 @@ export function useAchievementData(appid: number) {
     setLoading(true);
     setError(undefined);
     setReloadKey((k) => k + 1);
+  }, []);
+
+  const toggleSortOrder = useCallback(() => {
+    setReverseSort((s) => !s);
   }, []);
 
   const app: AppAchievements | null = useMemo(() => {
@@ -102,35 +153,11 @@ export function useAchievementData(appid: number) {
 
         const completionStats = determineCompletionStats(cheevs);
 
-        switch (sortOrder) {
-          case SortOptions.Default:
-            cheevs.sort(sortByDefault);
-            break;
-          case SortOptions.RaritySteam:
-            cheevs.sort(sortByRaritySteam);
-            break;
-          case SortOptions.RarityHunters:
-            cheevs.sort(sortByRarityHunters);
-            break;
-          case SortOptions.Name:
-            cheevs.sort(sortByName);
-            break;
-          case SortOptions.Points:
-            cheevs.sort(sortByPoints);
-            break;
-          case SortOptions.PointsSteam:
-            cheevs.sort(sortByPointsSteam);
-            break;
-          case SortOptions.UnlockDate:
-            cheevs.sort(sortByUnlockDate);
-            break;
-        }
-
         return {
           name,
           appId,
           isDlc,
-          achievements: cheevs,
+          achievements: sortAchievements(sortBy, cheevs, reverseSort),
           ...completionStats,
         };
       });
@@ -144,29 +171,7 @@ export function useAchievementData(appid: number) {
       }
     }
 
-    switch (sortOrder) {
-      case SortOptions.Default:
-        baseSet.achievements.sort(sortByDefault);
-        break;
-      case SortOptions.RaritySteam:
-        baseSet.achievements.sort(sortByRaritySteam);
-        break;
-      case SortOptions.RarityHunters:
-        baseSet.achievements.sort(sortByRarityHunters);
-        break;
-      case SortOptions.Name:
-        baseSet.achievements.sort(sortByName);
-        break;
-      case SortOptions.Points:
-        baseSet.achievements.sort(sortByPoints);
-        break;
-      case SortOptions.PointsSteam:
-        baseSet.achievements.sort(sortByPointsSteam);
-        break;
-      case SortOptions.UnlockDate:
-        baseSet.achievements.sort(sortByUnlockDate);
-        break;
-    }
+    baseSet.achievements = sortAchievements(sortBy, baseSet.achievements, reverseSort);
 
     baseSet = {
       ...baseSet,
@@ -177,7 +182,7 @@ export function useAchievementData(appid: number) {
       ...appInfo,
       achievementSets: [baseSet, ...groupSets],
     };
-  }, [achievementData, groups, achievements, appInfo, sortOrder]);
+  }, [achievementData, groups, achievements, appInfo, sortBy, reverseSort]);
 
   useEffect(() => {
     let cancelled = false;
@@ -210,8 +215,10 @@ export function useAchievementData(appid: number) {
     error,
     achievements,
     app,
-    sortOrder,
-    setSortOrder,
+    sortBy,
+    setSortBy,
+    reverseSort,
+    toggleSortOrder,
     refetch,
   };
 }
