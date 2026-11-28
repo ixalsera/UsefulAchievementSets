@@ -14,12 +14,12 @@ function sortByDefault(a: Achievement, b: Achievement) {
   return a.achievementId - b.achievementId;
 }
 function sortByRaritySteam(a: Achievement, b: Achievement) {
-  const result = a.steamPercentage - b.steamPercentage;
+  const result = b.steamPercentage - a.steamPercentage;
   if (result !== 0) return result;
   return sortByDefault(a, b);
 }
 function sortByRarityHunters(a: Achievement, b: Achievement) {
-  const result = a.localPercentage - b.localPercentage;
+  const result = b.localPercentage - a.localPercentage;
   if (result !== 0) return result;
   return sortByDefault(a, b);
 }
@@ -27,12 +27,12 @@ function sortByName(a: Achievement, b: Achievement) {
   return a.name.localeCompare(b.name);
 }
 function sortByPoints(a: Achievement, b: Achievement) {
-  const result = b.points - a.points;
+  const result = a.points - b.points;
   if (result !== 0) return result;
   return sortByDefault(a, b);
 }
 function sortByPointsSteam(a: Achievement, b: Achievement) {
-  const result = b.points - a.points;
+  const result = a.points - b.points;
   if (result !== 0) return result;
   return sortByDefault(a, b);
 }
